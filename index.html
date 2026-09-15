@@ -3,553 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudio Jurídico & Asesores Legales | Firma de Abogados</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome para Iconos -->
+    <title>Sistema de Gestión Jurídica | Panel Interno</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- VARIABLES GLOBALES (Colores y Fuentes) --- */
         :root {
-            --primary: #0F2027;      /* Azul Marino Oscuro / Elegante */
-            --secondary: #203A43;    /* Azul Intermedio */
-            --accent: #C5A059;       /* Dorado Legal */
-            --accent-hover: #b08d4b;
-            --text-dark: #222222;
-            --text-light: #F4F5F7;
-            --bg-light: #F8F9FA;
-            --white: #FFFFFF;
-            --font-serif: 'Cinzel', serif;
-            --font-sans: 'Montserrat', sans-serif;
+            --sidebar-width: 260px;
+            --bg-dark: #1E293B;
+            --bg-dark-hover: #334155;
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --accent-gold: #D97706;
+            --bg-body: #F1F5F9;
+            --surface: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg-body); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-        body {
-            font-family: var(--font-sans);
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* --- HEADER Y NAVEGACIÓN --- */
-        header {
-            background-color: var(--primary);
-            color: var(--text-light);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* --- SIDEBAR DE NAVEGACIÓN --- */
+        aside {
+            width: var(--sidebar-width);
+            background: var(--bg-dark);
+            color: #FFF;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
+            flex-direction: column;
         }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
+        .brand {
+            padding: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 1px;
+            color: #F8FAFC;
+            border-bottom: 1px solid var(--bg-dark-hover);
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .nav-links {
+        .brand i { color: var(--accent-gold); }
+        
+        .menu { list-style: none; padding: 1rem 0; }
+        .menu-item {
+            padding: 0.8rem 1.5rem;
             display: flex;
-            list-style: none;
-            gap: 20px;
+            align-items: center;
+            gap: 12px;
+            color: #94A3B8;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
         }
+        .menu-item:hover, .menu-item.active { background: var(--bg-dark-hover); color: #FFF; }
+        .menu-item.active { border-left: 4px solid var(--primary); }
 
-        .nav-links a {
-            color: var(--text-light);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
+        /* --- CONTENIDO PRINCIPAL --- */
+        main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .user-profile { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        
+        .content { padding: 2rem; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
 
-        .nav-links a:hover {
-            color: var(--accent);
+        /* --- TARJETAS RESUMEN --- */
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .metric-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
+        .metric-card h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
+        .metric-card .number { font-size: 1.8rem; font-weight: 700; color: var(--text-main); margin-top: 5px; }
+        .metric-card i { font-size: 2rem; color: var(--primary); opacity: 0.8; }
 
-        .btn-cta {
-            background-color: var(--accent);
-            color: var(--primary);
+        /* --- TABLAS Y FORMULARIOS --- */
+        .card { background: var(--surface); border-radius: 8px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        th { background: #F8FAFC; color: var(--text-muted); font-weight: 600; }
+        tr:hover { background: #F1F5F9; }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-active { background: #DCFCE7; color: #166534; }
+        .badge-pending { background: #FEF3C7; color: #92400E; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.6rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: #FFF;
+            border: none;
             padding: 0.6rem 1.2rem;
             border-radius: 4px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .btn-cta:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            background: linear-gradient(rgba(15, 32, 39, 0.85), rgba(15, 32, 39, 0.85)), 
-                        url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-light);
-            padding: 0 1rem;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-family: var(--font-serif);
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        /* --- SECCIONES GENERALES --- */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent);
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* --- ÁREAS DE PRÁCTICA Y TRÁMITES --- */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: var(--white);
-            padding: 2.5rem 1.5rem;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--accent);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .service-card i {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .service-card h3 {
-            font-family: var(--font-serif);
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .service-card ul {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .service-card ul li {
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 15px;
-        }
-
-        .service-card ul li::before {
-            content: "•";
-            color: var(--accent);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        /* --- NOSOTROS --- */
-        .about-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text h3 {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .about-img img {
-            width: 100%;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* --- CONTACTO Y UBICACIÓN --- */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .info-item i {
-            font-size: 1.5rem;
-            color: var(--accent);
-            background: var(--primary);
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        form {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        form input, form textarea, form select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-family: inherit;
-        }
-
-        form button {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 0.8rem;
-            border-radius: 4px;
-            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        form button:hover {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background: var(--primary);
-            color: var(--text-light);
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            border-top: 1px solid #222;
-        }
-
-        /* --- BOTÓN FLOTANTE WHATSAPP --- */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transition: transform 0.3s;
+            gap: 8px;
         }
-
-        .whatsapp-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .navbar { flex-direction: column; gap: 15px; }
-            .nav-links { flex-wrap: wrap; justify-content: center; }
-            .about-container, .contact-container { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2rem; }
-        }
+        .btn:hover { background: var(--primary-hover); }
     </style>
 </head>
 <body>
 
-    <!-- BOTÓN WHATSAPP -->
-    <a href="https://wa.me/123456789" class="whatsapp-btn" target="_blank" title="Consulta por WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <!-- MENÚ DE NAVEGACIÓN -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <i class="fas fa-balance-scale"></i>
-                <span>ESTUDIO JURÍDICO</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#nosotros">El Bufete</a></li>
-                <li><a href="#servicios">Áreas de Práctica</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-            <a href="#contacto" class="btn-cta">Agendar Consulta</a>
-        </nav>
-    </header>
-
-    <!-- INICIO / HERO -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h1>Defensa Legal Integral y Eficiente</h1>
-            <p>Especialistas en procesos judiciales, asesoría corporativa y trámites de documentación legal.</p>
-            <a href="#contacto" class="btn-cta">Solicitar Evaluación de Caso</a>
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <div class="brand">
+            <i class="fas fa-gavel"></i>
+            <span>JurisControl</span>
         </div>
-    </section>
+        <ul class="menu">
+            <li class="menu-item active" onclick="switchTab('dashboard', this)">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </li>
+            <li class="menu-item" onclick="switchTab('casos', this)">
+                <i class="fas fa-folder-open"></i> Expedientes y Casos
+            </li>
+            <li class="menu-item" onclick="switchTab('nuevo-caso', this)">
+                <i class="fas fa-folder-plus"></i> Registrar Caso
+            </li>
+            <li class="menu-item" onclick="switchTab('documentos', this)">
+                <i class="fas fa-file-pdf"></i> Repositorio Archivos
+            </li>
+        </ul>
+    </aside>
 
-    <!-- SOBRE NOSOTROS -->
-    <section id="nosotros">
-        <div class="about-container">
-            <div class="about-text">
-                <h3>Respaldo y Trayectoria a su Servicio</h3>
-                <p>Nuestro bufete está integrado por profesionales con amplia experiencia en la resolución de conflictos judiciales y el patrocinio de trámites legales corporativos y personales.</p>
-                <p>Nos enfocamos en brindar un trato personalizado, garantizando la máxima confidencialidad, ética y rapidez en la gestión de sus procesos.</p>
+    <!-- ÁREA PRINCIPAL -->
+    <main>
+        <header>
+            <h2>Gestión Legal Interna</h2>
+            <div class="user-profile">
+                <i class="fas fa-user-circle fa-2x"></i>
+                <span>Dr. Abogado Principal</span>
             </div>
-            <div class="about-img">
-                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80" alt="Bufete de Abogados">
-            </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- ÁREAS DE PRÁCTICA / TRÁMITES -->
-    <section id="servicios">
-        <div class="section-title">
-            <h2>Nuestras Áreas y Trámites</h2>
-        </div>
-        <div class="services-grid">
+        <div class="content">
             
-            <!-- Procesos Civiles y Familia -->
-            <div class="service-card">
-                <i class="fas fa-gavel"></i>
-                <h3>Derecho Civil y Familia</h3>
-                <p>Patrocinio en juicios y acuerdos contenciosos o voluntarios.</p>
-                <ul>
-                    <li>Divorcios y asistencia familiar</li>
-                    <li>Sucesiones y herencias (Declaratoria de Herederos)</li>
-                    <li>Contratos de compraventa, alquileres y anticresis</li>
-                    <li>Procesos ejecutivos y cobro de deudas</li>
-                </ul>
+            <!-- SECCIÓN 1: DASHBOARD -->
+            <div id="dashboard" class="tab-pane active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div>
+                            <h4>Casos Activos</h4>
+                            <div class="number">42</div>
+                        </div>
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="metric-card">
+                        <div>
+                            <h4>Audiencias Próximas</h4>
+                            <div class="number">5</div>
+                        </div>
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="metric-card">
+                        <div>
+                            <h4>Documentos Almacenados</h4>
+                            <div class="number">128</div>
+                        </div>
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Últimas Actuaciones Procesales</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nº Expediente</th>
+                                <th>Cliente</th>
+                                <th>Materia</th>
+                                <th>Juzgado / Tribunal</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>EXP-2026-089</td>
+                                <td>Carlos Mendoza</td>
+                                <td>Civil (Contratos)</td>
+                                <td>Juzgado 3° Civil</td>
+                                <td><span class="badge badge-active">En Tramitación</span></td>
+                            </tr>
+                            <tr>
+                                <td>EXP-2026-042</td>
+                                <td>Empresa Constructora SRL</td>
+                                <td>Laboral</td>
+                                <td>Juzgado 1° de Trabajo</td>
+                                <td><span class="badge badge-pending">Pendiente Audiencia</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Procesos Penales -->
-            <div class="service-card">
-                <i class="fas fa-user-shield"></i>
-                <h3>Derecho Penal</h3>
-                <p>Defensa técnica y representación legal en materia penal.</p>
-                <ul>
-                    <li>Defensa técnica en etapa preliminar y juicio</li>
-                    <li>Presentación de denuncias y querellas</li>
-                    <li>Medidas cautelares y audiencias de cesación</li>
-                    <li>Acciones de Libertad y Recursos Constitucionales</li>
-                </ul>
+            <!-- SECCIÓN 2: LISTADO DE CASOS -->
+            <div id="casos" class="tab-pane">
+                <div class="card">
+                    <div class="card-title">
+                        <span>Listado de Expedientes</span>
+                        <button class="btn" onclick="switchTab('nuevo-caso', document.querySelectorAll('.menu-item')[2])">
+                            <i class="fas fa-plus"></i> Nuevo Caso
+                        </button>
+                    </div>
+                    <table id="tablaCasos">
+                        <thead>
+                            <tr>
+                                <th>Nº Caso</th>
+                                <th>Cliente</th>
+                                <th>Cédula/NIT</th>
+                                <th>Tipo de Proceso</th>
+                                <th>Documentos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>EXP-2026-001</td>
+                                <td>Ana María Gutiérrez</td>
+                                <td>4589231</td>
+                                <td>Divorcio / Asistencia Familiar</td>
+                                <td><i class="fas fa-paperclip"></i> 3 Archivos</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Trámites y Derechos Reales -->
-            <div class="service-card">
-                <i class="fas fa-file-contract"></i>
-                <h3>Documentación y Derechos Reales</h3>
-                <p>Gestión completa de trámites administrativos y propiedad.</p>
-                <ul>
-                    <li>Saneamiento de inmuebles y regularización de títulos</li>
-                    <li>Registro de escrituras en Derechos Reales</li>
-                    <li>Trámites notariales y minutas de transferencia</li>
-                    <li>Corrección de datos y datos de identidad</li>
-                </ul>
+            <!-- SECCIÓN 3: REGISTRAR NUEVO CASO Y ADJUNTAR ARCHIVOS -->
+            <div id="nuevo-caso" class="tab-pane">
+                <div class="card">
+                    <div class="card-title">Registro de Nuevo Caso / Expediente</div>
+                    <form id="formRegistrarCaso" onsubmit="guardarCaso(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nº de Expediente / Código</label>
+                                <input type="text" id="numExpediente" placeholder="Ej: EXP-2026-090" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre del Cliente</label>
+                                <input type="text" id="nombreCliente" placeholder="Nombre completo" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Cédula de Identidad / Documento</label>
+                                <input type="text" id="ciCliente" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Materia Legal</label>
+                                <select id="materiaLegal" required>
+                                    <option value="Civil">Derecho Civil</option>
+                                    <option value="Penal">Derecho Penal</option>
+                                    <option value="Laboral">Derecho Laboral</option>
+                                    <option value="Familiar">Derecho de Familia</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Adjuntar Documentación Inicial (Demandas, Cédulas, Pruebas)</label>
+                                <input type="file" id="archivosCaso" multiple>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Detalles / Resumen del Caso</label>
+                                <textarea id="detallesCaso" rows="3" placeholder="Descripción de los hechos o pretensiones..."></textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn"><i class="fas fa-save"></i> Guardar Expediente</button>
+                    </form>
+                </div>
             </div>
 
-            <!-- Laboral y Comercial -->
-            <div class="service-card">
-                <i class="fas fa-briefcase"></i>
-                <h3>Derecho Laboral y Comercial</h3>
-                <p>Asesoramiento tanto para empresas como para trabajadores.</p>
-                <ul>
-                    <li>Cálculo de beneficios sociales y finiquitos</li>
-                    <li>Demandas laborales por despido injustificado</li>
-                    <li>Constitución de empresas y registros societarios</li>
-                    <li>Elaboración de contratos laborales y comerciales</li>
-                </ul>
-            </div>
-
-            <!-- Administrativo y Marcas -->
-            <div class="service-card">
-                <i class="fas fa-building"></i>
-                <h3>Trámites Administrativos y Propiedad Intelectual</h3>
-                <p>Protección patrimonial y procedimientos ante instituciones.</p>
-                <ul>
-                    <li>Registro de marcas y patentes</li>
-                    <li>Impugnaciones y recursos administrativos</li>
-                    <li>Licencias de funcionamiento y permisos</li>
-                    <li>Representación ante entidades públicas</li>
-                </ul>
-            </div>
-
-            <!-- Asesoría Integral / Consultoría -->
-            <div class="service-card">
-                <i class="fas fa-comments"></i>
-                <h3>Consultoría Preventiva</h3>
-                <p>Análisis de riesgos antes de iniciar acciones legales.</p>
-                <ul>
-                    <li>Auditoría de documentación legal</li>
-                    <li>Mediación y conciliación extrajudicial</li>
-                    <li>Elaboración de dictámenes jurídicos</li>
-                    <li>Asesoría legal recurrente para empresas</li>
-                </ul>
+            <!-- SECCIÓN 4: REPOSITORIO DE ARCHIVOS -->
+            <div id="documentos" class="tab-pane">
+                <div class="card">
+                    <div class="card-title">Buscador de Archivos y Documentos</div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <input type="text" placeholder="Buscar documento por expediente o nombre de archivo...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Archivo</th>
+                                <th>Expediente Asociado</th>
+                                <th>Fecha de Subida</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fas fa-file-pdf" style="color: red;"></i> Demanda_Inicial_Divorcio.pdf</td>
+                                <td>EXP-2026-001</td>
+                                <td>10/09/2026</td>
+                                <td><button class="btn" style="padding: 2px 8px; font-size:0.8rem;"><i class="fas fa-download"></i> Descargar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
-    </section>
+    </main>
 
-    <!-- CONTACTO Y UBICACIÓN -->
-    <section id="contacto">
-        <div class="section-title">
-            <h2>Contáctenos</h2>
-        </div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Programe una reunión con nuestro equipo</h3>
-                <p>Complete el formulario o comuníquese a través de nuestros canales oficiales para revisar su caso.</p>
-                
-                <div class="info-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <strong>Dirección:</strong>
-                        <p>Av. Principal #123, Edificio Jurídico, Piso 4</p>
-                    </div>
-                </div>
+    <!-- SCRIPT DE NAVEGACIÓN Y ALMACENAMIENTO DE PRUEBA -->
+    <script>
+        function switchTab(tabId, element) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
 
-                <div class="info-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <strong>Teléfonos / WhatsApp:</strong>
-                        <p>+591 700-00000 / (2) 222-3333</p>
-                    </div>
-                </div>
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            if(element) element.classList.add('active');
+        }
 
-                <div class="info-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <strong>Correo Electrónico:</strong>
-                        <p>contacto@estudiojuridico.com</p>
-                    </div>
-                </div>
+        function guardarCaso(event) {
+            event.preventDefault();
+            
+            const exp = document.getElementById('numExpediente').value;
+            const cliente = document.getElementById('nombreCliente').value;
+            const ci = document.getElementById('ciCliente').value;
+            const materia = document.getElementById('materiaLegal').value;
+            const archivos = document.getElementById('archivosCaso').files.length;
 
-                <div class="info-item">
-                    <i class="fas fa-clock"></i>
-                    <div>
-                        <strong>Horario de Atención:</strong>
-                        <p>Lunes a Viernes: 08:30 - 18:30</p>
-                    </div>
-                </div>
-            </div>
+            const tabla = document.getElementById('tablaCasos').getElementsByTagName('tbody')[0];
+            const nuevaFila = tabla.insertRow();
+            
+            nuevaFila.innerHTML = `
+                <td>${exp}</td>
+                <td>${cliente}</td>
+                <td>${ci}</td>
+                <td>${materia}</td>
+                <td><i class="fas fa-paperclip"></i> ${archivos} Archivo(s)</td>
+            `;
 
-            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Mensaje enviado. Nos pondremos en contacto pronto.');">
-                <h3>Enviar Consulta Confidencial</h3>
-                <input type="text" placeholder="Nombre Completo" required>
-                <input type="email" placeholder="Correo Electrónico" required>
-                <input type="tel" placeholder="Teléfono / WhatsApp" required>
-                <select required>
-                    <option value="" disabled selected>Seleccione la materia o área de trámite</option>
-                    <option value="civil">Derecho Civil / Contratos / Sucesiones</option>
-                    <option value="penal">Derecho Penal</option>
-                    <option value="laboral">Derecho Laboral</option>
-                    <option value="tramites">Trámites de Documentación / Propiedad</option>
-                    <option value="otro">Otro tipo de consulta</option>
-                </select>
-                <textarea rows="4" placeholder="Breve descripción de su consulta o trámite..." required></textarea>
-                <button type="submit">Enviar Mensaje</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 Estudio Jurídico & Asesores. Todos los derechos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 5px; color: #aaa;">
-            La información contenida en este sitio web es solo de carácter informativo y no constituye asesoramiento legal formal.
-        </p>
-    </footer>
-
+            alert('Expediente registrado correctamente.');
+            document.getElementById('formRegistrarCaso').reset();
+            switchTab('casos', document.querySelectorAll('.menu-item')[1]);
+        }
+    </script>
 </body>
 </html>
